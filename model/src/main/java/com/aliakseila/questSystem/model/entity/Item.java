@@ -1,4 +1,4 @@
-package com.aliakseila.questSystem.core.entity;
+package com.aliakseila.questSystem.model.entity;
 
 
 import jakarta.persistence.Entity;

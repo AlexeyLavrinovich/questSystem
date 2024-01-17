@@ -1,7 +1,7 @@
-package com.aliakseila.questSystem.core.entity.quest;
+package com.aliakseila.questSystem.model.entity.quest;
 
 
-import com.aliakseila.questSystem.core.entity.Item;
+import com.aliakseila.questSystem.model.entity.Item;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

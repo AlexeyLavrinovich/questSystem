@@ -1,6 +1,6 @@
 package com.aliakseila.questSystem.core.repository;
 
-import com.aliakseila.questSystem.core.entity.Item;
+import com.aliakseila.questSystem.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

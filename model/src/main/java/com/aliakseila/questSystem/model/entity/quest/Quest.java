@@ -1,6 +1,6 @@
-package com.aliakseila.questSystem.core.entity.quest;
+package com.aliakseila.questSystem.model.entity.quest;
 
-import com.aliakseila.questSystem.core.entity.User;
+import com.aliakseila.questSystem.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

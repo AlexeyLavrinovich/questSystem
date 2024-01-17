@@ -1,8 +1,8 @@
-package com.aliakseila.questSystem.core.entity.quest;
+package com.aliakseila.questSystem.model.entity.quest;
 
 
-import com.aliakseila.questSystem.core.entity.Status;
-import com.aliakseila.questSystem.core.entity.User;
+import com.aliakseila.questSystem.model.entity.Status;
+import com.aliakseila.questSystem.model.entity.User;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;

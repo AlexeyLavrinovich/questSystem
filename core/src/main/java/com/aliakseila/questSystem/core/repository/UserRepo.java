@@ -1,6 +1,6 @@
 package com.aliakseila.questSystem.core.repository;
 
-import com.aliakseila.questSystem.core.entity.User;
+import com.aliakseila.questSystem.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
