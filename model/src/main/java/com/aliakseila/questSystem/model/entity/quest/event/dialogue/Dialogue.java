@@ -1,33 +1,33 @@
-package com.aliakseila.questSystem.model.entity;
+package com.aliakseila.questSystem.model.entity.quest.event.dialogue;
 
-
-import com.aliakseila.questSystem.model.entity.person.Person;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "_item")
-public class Item {
+@Table(name = "_dialogue")
+public class Dialogue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String text;
 
-    @OneToOne
-    @JoinColumn(name = "owner_id")
-    private Person owner;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<DialogueOption> options;
+
 }

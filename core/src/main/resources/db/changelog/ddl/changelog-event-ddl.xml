@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="6" author="Alexey Lavrinovich">
+        <createTable tableName="_event">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dialogue_id" type="bigint">
+                <constraints foreignKeyName="dialogue_id_fk" references="_dialogue" nullable="false"/>
+            </column>
+            <column name="quest_id" type="bigint">
+                <constraints foreignKeyName="quest_id_fk" references="_quest" nullable="true"/>
+            </column>
+            <column name="next_event_id" type="bigint">
+                <constraints foreignKeyName="next_event_id_fk" references="_event" nullable="true"/>
+            </column>
+            <column name="type" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

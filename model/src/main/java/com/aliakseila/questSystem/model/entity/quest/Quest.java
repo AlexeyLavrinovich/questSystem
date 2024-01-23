@@ -1,12 +1,10 @@
 package com.aliakseila.questSystem.model.entity.quest;
 
-import com.aliakseila.questSystem.model.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
@@ -24,20 +22,7 @@ public class Quest {
     private String name;
     protected Double prize;
 
-    @OneToOne
-    @JoinColumn(name = "creator_id")
-    @ToString.Exclude
-    protected User creator;
-
-    @ManyToOne
-    @JoinColumn(name = "executor_id")
-    @ToString.Exclude
-    protected User executor;
-
-
-    public void passTheQuest(){
-        creator.pay(prize);
-        executor.earn(prize);
-    }
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quest_line_id")
+    private QuestLine questLine;
 }

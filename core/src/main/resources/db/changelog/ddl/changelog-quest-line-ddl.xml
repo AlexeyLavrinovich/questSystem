@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="8" author="Alexey Lavrinovich">
+        <createTable tableName="_quest_line">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints foreignKeyName="quest_line_event_id_fk" references="_event" nullable="true"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints foreignKeyName="quest_line_owner_id_fk" references="_person" nullable="false"/>
+            </column>
+            <column name="executor_id" type="bigint">
+                <constraints foreignKeyName="executor_id_fk" references="_person" nullable="true"/>
+            </column>
+            <column name="type" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="9" author="Alexey Lavrinovich">
+        <addColumn tableName="_quest">
+            <column name="quest_line_id" type="bigint">
+                <constraints foreignKeyName="quest_line_id_fk" referencedTableName="_quest_line" referencedColumnNames="id" nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

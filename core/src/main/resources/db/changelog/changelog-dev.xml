@@ -3,10 +3,19 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <include relativeToChangelogFile="true" file="changelog-user-ddl.xml"/>
-    <include relativeToChangelogFile="true" file="changelog-user-status-ddl.xml"/>
+    <include relativeToChangelogFile="true" file="ddl/changelog-person-ddl.xml"/>
 
-    <include relativeToChangelogFile="true" file="changelog-item-ddl.xml"/>
-    <include relativeToChangelogFile="true" file="changelog-quest-ddl.xml"/>
-    <include relativeToChangelogFile="true" file="data/changelog-data.xml"/>
+    <include relativeToChangelogFile="true" file="ddl/changelog-person-status-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-item-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-quest-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-dialogue-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-event-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-dialogue-option-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-quest-line-ddl.xml"/>
 </databaseChangeLog>

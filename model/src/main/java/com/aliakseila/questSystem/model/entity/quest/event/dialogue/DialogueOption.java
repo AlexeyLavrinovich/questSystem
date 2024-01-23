@@ -1,7 +1,6 @@
-package com.aliakseila.questSystem.model.entity;
+package com.aliakseila.questSystem.model.entity.quest.event.dialogue;
 
-
-import com.aliakseila.questSystem.model.entity.person.Person;
+import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,15 +18,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "_item")
-public class Item {
+@Table(name = "_dialogue_option")
+public class DialogueOption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String answer;
 
     @OneToOne
-    @JoinColumn(name = "owner_id")
-    private Person owner;
+    @JoinColumn(name = "event_id")
+    private QuestEvent nextEvent;
+
 }

@@ -3,16 +3,13 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
-    <changeSet id="4" author="Alexey Lavrinovich">
-        <createTable tableName="_item">
+    <changeSet id="5" author="Alexey Lavrinovich">
+        <createTable tableName="_dialogue">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(128)">
+            <column name="text" type="varchar(1024)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="owner_id" type="bigint" >
-                <constraints foreignKeyName="owner_id_fk" references="_user" nullable="true"/>
             </column>
         </createTable>
     </changeSet>

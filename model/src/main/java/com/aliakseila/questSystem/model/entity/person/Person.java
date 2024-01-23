@@ -1,4 +1,4 @@
-package com.aliakseila.questSystem.model.entity;
+package com.aliakseila.questSystem.model.entity.person;
 
 import com.aliakseila.questSystem.model.entity.quest.Quest;
 import jakarta.persistence.*;
@@ -15,8 +15,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "_user")
-public class User {
+@Table(name = "_person")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +27,7 @@ public class User {
     private Double money;
 
     @ElementCollection(targetClass = Status.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "_user_status", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "_person_status", joinColumns = @JoinColumn(name = "person_id"))
     @Enumerated(EnumType.STRING)
     private Set<Status> status;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "executor")
-    private List<Quest> quests;
-
-    public void pay(Double sum){
-        this.money -= sum;
-    }
-
-    public void earn(Double sum){
-        this.money += sum;
-    }
 }
