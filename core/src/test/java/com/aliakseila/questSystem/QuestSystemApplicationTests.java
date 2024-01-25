@@ -130,10 +130,10 @@ class QuestSystemApplicationTests {
         dialogueOptionService.deleteAll();
         dialogueService.deleteAll();
         questEventService.deleteAll();
-//        dialogueEventService.deleteAll();
         itemService.deleteAll();
         playerService.deleteAll();
         npcService.deleteAll();
+        dialogueEventService.deleteAll();
     }
 
     @Test
