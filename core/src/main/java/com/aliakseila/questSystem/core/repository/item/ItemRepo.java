@@ -1,4 +1,4 @@
-package com.aliakseila.questSystem.core.repository;
+package com.aliakseila.questSystem.core.repository.item;
 
 import com.aliakseila.questSystem.model.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;

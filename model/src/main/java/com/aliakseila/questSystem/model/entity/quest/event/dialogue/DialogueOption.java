@@ -1,11 +1,13 @@
 package com.aliakseila.questSystem.model.entity.quest.event.dialogue;
 
-import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
+import com.aliakseila.questSystem.model.entity.quest.event.Event;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -26,8 +28,12 @@ public class DialogueOption {
     private Long id;
     private String answer;
 
+    @ManyToOne
+    @JoinColumn(name = "dialogue_id")
+    private Dialogue dialogue;
+
     @OneToOne
     @JoinColumn(name = "event_id")
-    private QuestEvent nextEvent;
+    private Event nextEvent;
 
 }

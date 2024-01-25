@@ -1,7 +1,7 @@
 package com.aliakseila.questSystem.model.entity;
 
 
-import com.aliakseila.questSystem.model.entity.person.Person;
+import com.aliakseila.questSystem.model.entity.person.Pockets;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,5 +29,5 @@ public class Item {
 
     @OneToOne
     @JoinColumn(name = "owner_id")
-    private Person owner;
+    private Pockets owner;
 }

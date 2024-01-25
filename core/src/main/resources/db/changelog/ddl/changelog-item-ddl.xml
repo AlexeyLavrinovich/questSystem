@@ -2,8 +2,17 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
-
-    <changeSet id="3" author="Alexey Lavrinovich">
+    <changeSet id="1" author="Alexey Lavrinovich">
+        <createTable tableName="_pockets">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="money" type="DOUBLE PRECISION">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.5" author="Alexey Lavrinovich">
         <createTable tableName="_item">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -12,9 +21,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="owner_id" type="bigint">
-                <constraints foreignKeyName="item_owner_id_fk" references="_person" nullable="true"/>
+                <constraints foreignKeyName="item_owner_id_fk" references="_pockets" nullable="true"/>
             </column>
         </createTable>
     </changeSet>
+
 
 </databaseChangeLog>

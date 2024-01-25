@@ -11,6 +11,9 @@
             <column name="answer" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
+            <column name="dialogue_id" type="bigint">
+                <constraints foreignKeyName="dialogue_option_id_fk" references="_dialogue" nullable="true"/>
+            </column>
             <column name="event_id" type="bigint">
                 <constraints foreignKeyName="event_id_fk" references="_event" nullable="true"/>
             </column>

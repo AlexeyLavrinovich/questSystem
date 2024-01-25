@@ -12,13 +12,10 @@
                 <constraints foreignKeyName="quest_line_event_id_fk" references="_event" nullable="true"/>
             </column>
             <column name="owner_id" type="bigint">
-                <constraints foreignKeyName="quest_line_owner_id_fk" references="_person" nullable="false"/>
+                <constraints foreignKeyName="quest_line_owner_id_fk" references="_person" nullable="true"/>
             </column>
             <column name="executor_id" type="bigint">
                 <constraints foreignKeyName="executor_id_fk" references="_person" nullable="true"/>
-            </column>
-            <column name="type" type="varchar(512)">
-                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,8 +29,8 @@ public class QuestLine {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questLine")
-    private LinkedList<Quest> history;
+    @OneToMany(mappedBy = "questLine")
+    private List<Quest> history;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")

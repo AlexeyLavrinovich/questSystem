@@ -27,7 +27,7 @@ public class Dialogue {
     private Long id;
     private String text;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dialogue")
     private List<DialogueOption> options;
 
 }
