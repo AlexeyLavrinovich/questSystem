@@ -27,6 +27,6 @@ public class QuestEvent extends Event {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "next_event_id")
-    private Event nextEvent;
+    private DialogueEvent nextEvent;
 
 }

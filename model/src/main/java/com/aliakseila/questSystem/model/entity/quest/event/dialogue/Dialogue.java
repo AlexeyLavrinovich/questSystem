@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Dialogue {
     private String text;
 
     @OneToMany(mappedBy = "dialogue")
+    @ToString.Exclude
     private List<DialogueOption> options;
 
 }

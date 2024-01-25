@@ -6,6 +6,8 @@ import com.aliakseila.questSystem.model.entity.quest.event.dialogue.DialogueOpti
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DialogueOptionService {
@@ -16,14 +18,22 @@ public class DialogueOptionService {
         return dialogueOptionRepo.save(option);
     }
 
-    public DialogueOption createAndSave(String text, Event event) {
+    public DialogueOption create(String text, Event event) {
         DialogueOption option = new DialogueOption();
         option.setAnswer(text);
         option.setNextEvent(event);
-        return save(option);
+        return option;
     }
 
     public void deleteAll() {
         dialogueOptionRepo.deleteAll();
+    }
+
+    public List<DialogueOption> findByDialogueId(Long id) {
+        return dialogueOptionRepo.findAllByDialogueId(id);
+    }
+
+    public List<DialogueOption> saveAll(List<DialogueOption> options) {
+        return dialogueOptionRepo.saveAll(options);
     }
 }

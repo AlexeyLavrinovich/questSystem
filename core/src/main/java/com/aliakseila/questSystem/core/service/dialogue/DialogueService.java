@@ -1,5 +1,6 @@
 package com.aliakseila.questSystem.core.service.dialogue;
 
+import com.aliakseila.questSystem.core.repository.dialogue.DialogueOptionRepo;
 import com.aliakseila.questSystem.core.repository.dialogue.DialogueRepo;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.dialogue.Dialogue;
@@ -14,14 +15,23 @@ import java.util.List;
 public class DialogueService {
 
     private final DialogueRepo dialogueRepo;
+    private final DialogueOptionService dialogueOptionService;
 
-    public Dialogue save(Dialogue dialogue){
+    public Dialogue save(Dialogue dialogue) {
         return dialogueRepo.save(dialogue);
     }
 
     public Dialogue createAndSave(String text, List<DialogueOption> options) {
         Dialogue dialogue = new Dialogue();
         dialogue.setText(text);
+        return createAndSave(save(dialogue), options);
+    }
+
+    private Dialogue createAndSave(Dialogue dialogue, List<DialogueOption> options){
+        options.forEach(o -> {
+            o.setDialogue(dialogue);
+        });
+        options = dialogueOptionService.saveAll(options);
         dialogue.setOptions(options);
         return save(dialogue);
     }

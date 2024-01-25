@@ -19,7 +19,6 @@ import com.aliakseila.questSystem.model.entity.quest.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest(classes = QuestSystemCoreApplication.class)
 class QuestSystemApplicationTests {
@@ -80,19 +80,19 @@ class QuestSystemApplicationTests {
         d1.setDialogue(dialogueService.createAndSave(
                 "Hi! You're new here so I can help you.",
                 new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.createAndSave("skip tutorial", firstFightEvent),
-                        dialogueOptionService.createAndSave("(continue to listen)", d2)
+                        dialogueOptionService.create("skip tutorial", firstFightEvent),
+                        dialogueOptionService.create("(continue to listen)", d2)
                 ))));
         d2.setDialogue(dialogueService.createAndSave(
                 "(tell you about Kill quest )",
                 new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.createAndSave("skip tutorial", firstFightEvent),
-                        dialogueOptionService.createAndSave("(continue to listen)", d3)
+                        dialogueOptionService.create("skip tutorial", firstFightEvent),
+                        dialogueOptionService.create("(continue to listen)", d3)
                 ))));
         d3.setDialogue(dialogueService.createAndSave(
                 "(tell you about fight)",
                 new ArrayList<>(Collections.singletonList(
-                        dialogueOptionService.createAndSave("let's fight", firstFightEvent)
+                        dialogueOptionService.create("let's fight", firstFightEvent)
                 ))));
 
         QuestEvent gatherQuestEvent = new QuestEvent();
@@ -106,18 +106,23 @@ class QuestSystemApplicationTests {
         d4.setDialogue(dialogueService.createAndSave(
                 "(tell you about Gather quest)",
                 new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.createAndSave("skip tutorial", gatherQuestEvent),
-                        dialogueOptionService.createAndSave("(continue to listen)", d5)
+                        dialogueOptionService.create("skip tutorial", gatherQuestEvent),
+                        dialogueOptionService.create("(continue to listen)", d5)
                 ))));
         d5.setDialogue(dialogueService.createAndSave(
                 "(tell you about fight)",
                 new ArrayList<>(Collections.singletonList(
-                        dialogueOptionService.createAndSave("I'll find it", gatherQuestEvent)
+                        dialogueOptionService.create("I'll find it", gatherQuestEvent)
                 ))));
 
         QuestLine tutor = new QuestLine();
         tutor.setEvent(d1);
         tutor.setOwner(bob);
+        dialogueEventService.save(d1);
+        dialogueEventService.save(d2);
+        dialogueEventService.save(d3);
+        dialogueEventService.save(d4);
+        dialogueEventService.save(d5);
         questLineService.save(tutor);
 
     }
@@ -128,18 +133,35 @@ class QuestSystemApplicationTests {
         gatherQuestService.deleteAll();
         questLineService.deleteAll();
         dialogueOptionService.deleteAll();
-        dialogueService.deleteAll();
+
+
         questEventService.deleteAll();
         itemService.deleteAll();
         playerService.deleteAll();
         npcService.deleteAll();
         dialogueEventService.deleteAll();
+        dialogueService.deleteAll();
+
     }
 
     @Test
     void checkQuestLinePassedSuccessfully() {
         Player player = playerService.getByUsername("alex");
-        Assertions.assertEquals("alex", player.getUsername());
+        Npc bob = npcService.getByUsername("bob");
+        QuestLine tutor = speakWithNpc(player, bob);
+
+    }
+
+    private QuestLine speakWithNpc(Player player, Npc npc) {
+        List<QuestLine> playerQuests = player.getQuestLines();
+        QuestLine questLine = npc.getQuestLines().stream()
+                .filter(ql -> !playerQuests.contains(ql))
+                .findFirst()
+                .orElseThrow();
+        playerQuests.add(questLine);
+        player.setQuestLines(playerQuests);
+        questLine.setExecutor(player);
+        return questLineService.trigger(questLine);
     }
 
 }

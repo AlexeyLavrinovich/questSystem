@@ -2,6 +2,7 @@ package com.aliakseila.questSystem.model.entity.quest;
 
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
+import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class QuestLine {
 
     @OneToOne
     @JoinColumn(name = "event_id")
-    private Event event;
+    private DialogueEvent event;
 
     @OneToMany(mappedBy = "questLine")
     private List<Quest> history;
