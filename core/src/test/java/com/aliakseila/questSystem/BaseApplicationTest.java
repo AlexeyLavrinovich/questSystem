@@ -30,25 +30,25 @@ import java.util.Collections;
 public class BaseApplicationTest {
 
     @Autowired
-    private PlayerService playerService;
+    protected PlayerService playerService;
     @Autowired
-    private NpcService npcService;
+    protected NpcService npcService;
     @Autowired
-    private QuestLineService questLineService;
+    protected QuestLineService questLineService;
     @Autowired
-    private DialogueService dialogueService;
+    protected DialogueService dialogueService;
     @Autowired
-    private DialogueEventService dialogueEventService;
+    protected DialogueEventService dialogueEventService;
     @Autowired
-    private DialogueOptionService dialogueOptionService;
+    protected DialogueOptionService dialogueOptionService;
     @Autowired
-    private QuestEventService questEventService;
+    protected QuestEventService questEventService;
     @Autowired
-    private KillQuestService killQuestService;
+    protected KillQuestService killQuestService;
     @Autowired
-    private GatherQuestService gatherQuestService;
+    protected GatherQuestService gatherQuestService;
     @Autowired
-    private ItemService itemService;
+    protected ItemService itemService;
 
     @BeforeEach
     public void init() {

@@ -35,41 +35,11 @@ import java.util.List;
 @SpringBootTest(classes = QuestSystemCoreApplication.class)
 class QuestSystemApplicationTests extends BaseApplicationTest {
 
-
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
-    private NpcService npcService;
-    @Autowired
-    private QuestLineService questLineService;
-    @Autowired
-    private DialogueService dialogueService;
-    @Autowired
-    private DialogueEventService dialogueEventService;
-    @Autowired
-    private DialogueOptionService dialogueOptionService;
-    @Autowired
-    private QuestEventService questEventService;
-    @Autowired
-    private KillQuestService killQuestService;
-    @Autowired
-    private GatherQuestService gatherQuestService;
-    @Autowired
-    private ItemService itemService;
-
-//    @Override
-//    @BeforeEach
-//    public void init(){
-//        super.init();
-//    }
-
     @Test
     void checkQuestLinePassedSuccessfully() {
         Player player = playerService.getByUsername("alex");
         Npc bob = npcService.getByUsername("bob");
         QuestLine tutor = speakWithNpc(player, bob);
-
-
     }
 
     private QuestLine speakWithNpc(Player player, Npc npc) {
