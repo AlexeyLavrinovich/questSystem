@@ -38,8 +38,30 @@ class QuestSystemApplicationTests extends BaseApplicationTest {
     @Test
     void checkQuestLinePassedSuccessfully() {
         Player player = playerService.getByUsername("alex");
+        Assertions.assertNotNull(player);
+
         Npc bob = npcService.getByUsername("bob");
-        QuestLine tutor = speakWithNpc(player, bob);
+        Assertions.assertNotNull(bob);
+
+        QuestLine questLine = speakWithNpc(player, bob);
+        Assertions.assertNotNull(questLine);
+
+        questLine = triggerEvent(questLine);
+        questLine = chooseOption(2L, questLine);
+        Assertions.assertFalse(checkForQuest(questLine));
+
+        questLine = chooseOption(3L, questLine);
+        Assertions.assertTrue(checkForQuest(questLine));
+
+        questLine = passQuest(1L, questLine, true);
+        Assertions.assertFalse(checkForQuest(questLine));
+
+        questLine = triggerEvent(questLine);
+        questLine = chooseOption(7L, questLine);
+        Assertions.assertFalse(checkForQuest(questLine));
+
+        questLine = chooseOption(8L, questLine);
+        Assertions.assertTrue(checkForQuest(questLine));
     }
 
     private QuestLine speakWithNpc(Player player, Npc npc) {
@@ -51,19 +73,23 @@ class QuestSystemApplicationTests extends BaseApplicationTest {
         playerQuests.add(questLine);
         player.setQuestLines(playerQuests);
         questLine.setExecutor(player);
-        questLine = questLineService.save(questLineService.trigger(questLine));
-        questLine = questLineService.save(questLineService.chooseOption(2L, questLine));
-        Assertions.assertFalse(questLineService.checkForQuest(questLine));
-        questLine = questLineService.save(questLineService.chooseOption(3L, questLine));
-        Assertions.assertTrue(questLineService.checkForQuest(questLine));
-        questLine = questLineService.save(questLineService.passQuest(1L, questLine, true));
-        Assertions.assertFalse(questLineService.checkForQuest(questLine));
-        questLine = questLineService.save(questLineService.trigger(questLine));
-        questLine = questLineService.save(questLineService.chooseOption(7L, questLine));
-        Assertions.assertFalse(questLineService.checkForQuest(questLine));
-        questLine = questLineService.save(questLineService.chooseOption(8L, questLine));
-        Assertions.assertTrue(questLineService.checkForQuest(questLine));
-        return questLine;
+        return questLineService.save(questLine);
+    }
+
+    private QuestLine triggerEvent(QuestLine questLine){
+        return questLineService.save(questLineService.trigger(questLine));
+    }
+
+    private QuestLine chooseOption(Long dialogueOptionId, QuestLine questLine){
+        return questLineService.save(questLineService.chooseOption(dialogueOptionId, questLine));
+    }
+
+    private boolean checkForQuest(QuestLine questLine){
+        return questLineService.checkForQuest(questLine);
+    }
+
+    private QuestLine passQuest(Long questId, QuestLine questLine, Boolean condition){
+        return questLineService.save(questLineService.passQuest(questId, questLine, condition));
     }
 
 }
