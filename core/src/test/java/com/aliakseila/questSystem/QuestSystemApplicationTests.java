@@ -127,22 +127,19 @@ class QuestSystemApplicationTests {
 
     }
 
-    @AfterEach
-    public void done() {
-        killQuestService.deleteAll();
-        gatherQuestService.deleteAll();
-        questLineService.deleteAll();
-
-        itemService.deleteAll();
-        playerService.deleteAll();
-        npcService.deleteAll();
-
-        dialogueOptionService.deleteAll();
-        questEventService.deleteAll();
-        dialogueEventService.deleteAll();
-        dialogueService.deleteAll();
-
-    }
+//    @AfterEach
+//    public void done() {
+//        killQuestService.deleteAll();
+//        gatherQuestService.deleteAll();
+//        questLineService.deleteAll();
+//        itemService.deleteAll();
+//        dialogueOptionService.deleteAll();
+//        questEventService.deleteAll();
+//        dialogueEventService.deleteAll();
+//        playerService.deleteAll();
+//        npcService.deleteAll();
+//        dialogueService.deleteAll();
+//    }
 
     @Test
     void checkQuestLinePassedSuccessfully() {
@@ -154,14 +151,13 @@ class QuestSystemApplicationTests {
 
     private QuestLine speakWithNpc(Player player, Npc npc) {
         List<QuestLine> playerQuests = player.getQuestLines();
-        QuestLine questLine = npc.getQuestLines().stream()
-                .filter(ql -> !playerQuests.contains(ql))
+        QuestLine questLine = questLineService.getQuestLinesByPlayerId(npc.getId()).stream()
                 .findFirst()
                 .orElseThrow();
         playerQuests.add(questLine);
         player.setQuestLines(playerQuests);
         questLine.setExecutor(player);
-        return questLineService.trigger(questLine);
+        return questLineService.save(questLineService.trigger(questLine));
     }
 
 }

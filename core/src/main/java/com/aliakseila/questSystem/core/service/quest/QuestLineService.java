@@ -8,6 +8,8 @@ import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class QuestLineService {
@@ -21,6 +23,10 @@ public class QuestLineService {
 
     public QuestLine save(QuestLine questLine) {
         return questLineRepo.save(questLine);
+    }
+
+    public List<QuestLine> getQuestLinesByPlayerId(Long npcId){
+        return questLineRepo.findByOwnerIdAndExecutorIsNull(npcId);
     }
 
     public QuestLine trigger(QuestLine questLine){

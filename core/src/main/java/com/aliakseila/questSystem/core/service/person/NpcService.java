@@ -5,11 +5,14 @@ import com.aliakseila.questSystem.core.service.item.PocketsService;
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Status;
+import com.aliakseila.questSystem.model.entity.quest.QuestLine;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +34,8 @@ public class NpcService implements PersonService<Npc> {
         }
         return npc.orElseThrow();
     }
+
+
 
     @Override
     public Npc createAndSave(String name, double sum){
