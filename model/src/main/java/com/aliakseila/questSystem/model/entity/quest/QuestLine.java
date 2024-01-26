@@ -30,7 +30,7 @@ public class QuestLine {
     @JoinColumn(name = "event_id")
     private DialogueEvent event;
 
-    @OneToMany(mappedBy = "questLine")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "questLine")
     private List<Quest> history;
 
     @ManyToOne

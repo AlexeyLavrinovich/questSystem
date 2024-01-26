@@ -36,4 +36,8 @@ public class DialogueOptionService {
     public List<DialogueOption> saveAll(List<DialogueOption> options) {
         return dialogueOptionRepo.saveAll(options);
     }
+
+    public DialogueOption findById(Long dialogueOptionId) {
+        return dialogueOptionRepo.findById(dialogueOptionId).orElseThrow();
+    }
 }

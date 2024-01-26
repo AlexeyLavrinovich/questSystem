@@ -1,5 +1,6 @@
 package com.aliakseila.questSystem.core.service.quest;
 
+import com.aliakseila.questSystem.core.repository.item.ItemRepo;
 import com.aliakseila.questSystem.core.repository.quest.GatherQuestRepo;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Person;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class GatherQuestService implements QuestService<GatherQuest> {
 
     private final GatherQuestRepo gatherQuestRepo;
+    private final ItemRepo itemRepo;
 
     @Override
     public GatherQuest save(GatherQuest quest) {
@@ -29,5 +31,19 @@ public class GatherQuestService implements QuestService<GatherQuest> {
     @Override
     public void deleteAll() {
         gatherQuestRepo.deleteAll();
+    }
+
+    @Override
+    public GatherQuest findById(Long questId) {
+        return gatherQuestRepo.findById(questId).orElseThrow();
+    }
+
+    @Override
+    public void passQuest(GatherQuest quest) {
+        Item item = quest.getItem();
+        item.setOwner(quest.getQuestLine().getOwner().getPockets());
+        itemRepo.save(item);
+        quest.setQuestLine(null);
+        save(quest);
     }
 }

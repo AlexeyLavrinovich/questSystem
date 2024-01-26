@@ -1,7 +1,9 @@
 package com.aliakseila.questSystem.core.service.event;
 
 import com.aliakseila.questSystem.core.repository.event.QuestEventRepo;
+import com.aliakseila.questSystem.core.repository.quest.QuestRepo;
 import com.aliakseila.questSystem.core.service.quest.QuestLineService;
+import com.aliakseila.questSystem.core.service.quest.QuestService;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.quest.Quest;
 import com.aliakseila.questSystem.model.entity.quest.QuestLine;
@@ -16,7 +18,7 @@ import java.util.List;
 public class QuestEventService implements EventService<QuestEvent> {
 
     private final QuestEventRepo questEventRepo;
-    private final QuestLineService questLineService;
+    private final QuestRepo questRepo;
 
     @Override
     public QuestEvent save(QuestEvent event) {
@@ -30,10 +32,17 @@ public class QuestEventService implements EventService<QuestEvent> {
 
     @Override
     public QuestLine trigger(QuestEvent event, QuestLine questLine) {
-        List<Quest> history = questLine.getHistory();
+        List<Quest> history = questRepo.findByQuestLineId(questLine.getId());
         Quest quest = event.getQuest();
-        history.add(quest);
+        quest.setQuestLine(questLine);
+        questRepo.save(quest);
+        history.add(event.getQuest());
         questLine.setEvent(event.getNextEvent());
-        return questLineService.save(questLine);
+        return questLine;
+    }
+
+    @Override
+    public QuestEvent findById(Long id) {
+        return questEventRepo.findById(id).orElseThrow();
     }
 }

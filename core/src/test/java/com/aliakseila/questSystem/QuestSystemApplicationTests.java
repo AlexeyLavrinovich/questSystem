@@ -18,7 +18,10 @@ import com.aliakseila.questSystem.model.entity.quest.KillQuest;
 import com.aliakseila.questSystem.model.entity.quest.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
+import com.aliakseila.questSystem.model.entity.quest.event.dialogue.DialogueOption;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,8 @@ import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest(classes = QuestSystemCoreApplication.class)
-class QuestSystemApplicationTests {
+class QuestSystemApplicationTests extends BaseApplicationTest {
+
 
     @Autowired
     private PlayerService playerService;
@@ -53,92 +57,10 @@ class QuestSystemApplicationTests {
     @Autowired
     private ItemService itemService;
 
-    @BeforeEach
-    public void init() {
-        Player player = playerService.createAndSave("alex", 200.0);
-        Npc john = npcService.createAndSave("john", 10);
-        Npc bob = npcService.createAndSave("bob", 100);
-        Npc bandit = npcService.createAndSave("erik", 2);
-        Npc firstFightTarget = npcService.createAndSave("trim", 0);
-
-        QuestEvent firstFightEvent = new QuestEvent();
-        KillQuest firstFight = killQuestService.create("first fight", 0.0);
-        firstFight.setTarget(firstFightTarget);
-        firstFight = killQuestService.save(firstFight);
-        firstFightEvent = questEventService.save(firstFightEvent);
-
-        DialogueEvent d1 = new DialogueEvent();
-        DialogueEvent d2 = new DialogueEvent();
-        DialogueEvent d3 = new DialogueEvent();
-        DialogueEvent d4 = new DialogueEvent();
-        d1 = dialogueEventService.save(d1);
-        d2 = dialogueEventService.save(d2);
-        d3 = dialogueEventService.save(d3);
-        d4 = dialogueEventService.save(d4);
-        firstFightEvent.setQuest(firstFight);
-        firstFightEvent.setNextEvent(d4);
-        d1.setDialogue(dialogueService.createAndSave(
-                "Hi! You're new here so I can help you.",
-                new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.create("skip tutorial", firstFightEvent),
-                        dialogueOptionService.create("(continue to listen)", d2)
-                ))));
-        d2.setDialogue(dialogueService.createAndSave(
-                "(tell you about Kill quest )",
-                new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.create("skip tutorial", firstFightEvent),
-                        dialogueOptionService.create("(continue to listen)", d3)
-                ))));
-        d3.setDialogue(dialogueService.createAndSave(
-                "(tell you about fight)",
-                new ArrayList<>(Collections.singletonList(
-                        dialogueOptionService.create("let's fight", firstFightEvent)
-                ))));
-
-        QuestEvent gatherQuestEvent = new QuestEvent();
-        GatherQuest gatherQuest = gatherQuestService.create("gatherQuest", 0.0);
-        gatherQuest.setItem(itemService.create("dragon tear"));
-        gatherQuest = gatherQuestService.save(gatherQuest);
-        gatherQuestEvent = questEventService.save(gatherQuestEvent);
-
-        DialogueEvent d5 = new DialogueEvent();
-        dialogueEventService.save(d5);
-        d4.setDialogue(dialogueService.createAndSave(
-                "(tell you about Gather quest)",
-                new ArrayList<>(Arrays.asList(
-                        dialogueOptionService.create("skip tutorial", gatherQuestEvent),
-                        dialogueOptionService.create("(continue to listen)", d5)
-                ))));
-        d5.setDialogue(dialogueService.createAndSave(
-                "(tell you about fight)",
-                new ArrayList<>(Collections.singletonList(
-                        dialogueOptionService.create("I'll find it", gatherQuestEvent)
-                ))));
-
-        QuestLine tutor = new QuestLine();
-        tutor.setEvent(d1);
-        tutor.setOwner(bob);
-        dialogueEventService.save(d1);
-        dialogueEventService.save(d2);
-        dialogueEventService.save(d3);
-        dialogueEventService.save(d4);
-        dialogueEventService.save(d5);
-        questLineService.save(tutor);
-
-    }
-
-//    @AfterEach
-//    public void done() {
-//        killQuestService.deleteAll();
-//        gatherQuestService.deleteAll();
-//        questLineService.deleteAll();
-//        itemService.deleteAll();
-//        dialogueOptionService.deleteAll();
-//        questEventService.deleteAll();
-//        dialogueEventService.deleteAll();
-//        playerService.deleteAll();
-//        npcService.deleteAll();
-//        dialogueService.deleteAll();
+//    @Override
+//    @BeforeEach
+//    public void init(){
+//        super.init();
 //    }
 
     @Test
@@ -147,6 +69,7 @@ class QuestSystemApplicationTests {
         Npc bob = npcService.getByUsername("bob");
         QuestLine tutor = speakWithNpc(player, bob);
 
+
     }
 
     private QuestLine speakWithNpc(Player player, Npc npc) {
@@ -154,10 +77,23 @@ class QuestSystemApplicationTests {
         QuestLine questLine = questLineService.getQuestLinesByPlayerId(npc.getId()).stream()
                 .findFirst()
                 .orElseThrow();
+        Assertions.assertNotNull(questLine);
         playerQuests.add(questLine);
         player.setQuestLines(playerQuests);
         questLine.setExecutor(player);
-        return questLineService.save(questLineService.trigger(questLine));
+        questLine = questLineService.save(questLineService.trigger(questLine));
+        questLine = questLineService.save(questLineService.chooseOption(2L, questLine));
+        Assertions.assertFalse(questLineService.checkForQuest(questLine));
+        questLine = questLineService.save(questLineService.chooseOption(3L, questLine));
+        Assertions.assertTrue(questLineService.checkForQuest(questLine));
+        questLine = questLineService.save(questLineService.passQuest(1L, questLine, true));
+        Assertions.assertFalse(questLineService.checkForQuest(questLine));
+        questLine = questLineService.save(questLineService.trigger(questLine));
+        questLine = questLineService.save(questLineService.chooseOption(7L, questLine));
+        Assertions.assertFalse(questLineService.checkForQuest(questLine));
+        questLine = questLineService.save(questLineService.chooseOption(8L, questLine));
+        Assertions.assertTrue(questLineService.checkForQuest(questLine));
+        return questLine;
     }
 
 }

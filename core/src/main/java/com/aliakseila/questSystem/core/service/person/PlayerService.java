@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,5 +49,9 @@ public class PlayerService implements PersonService<Player>{
     @Override
     public void deleteAll() {
         playerRepo.deleteAll();
+    }
+
+    public List<Player> findAll() {
+        return playerRepo.findAll();
     }
 }
