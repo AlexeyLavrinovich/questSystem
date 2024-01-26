@@ -132,13 +132,13 @@ class QuestSystemApplicationTests {
         killQuestService.deleteAll();
         gatherQuestService.deleteAll();
         questLineService.deleteAll();
-        dialogueOptionService.deleteAll();
 
-
-        questEventService.deleteAll();
         itemService.deleteAll();
         playerService.deleteAll();
         npcService.deleteAll();
+
+        dialogueOptionService.deleteAll();
+        questEventService.deleteAll();
         dialogueEventService.deleteAll();
         dialogueService.deleteAll();
 

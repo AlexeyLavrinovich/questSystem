@@ -28,7 +28,7 @@ public class Dialogue {
     private Long id;
     private String text;
 
-    @OneToMany(mappedBy = "dialogue")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dialogue")
     @ToString.Exclude
     private List<DialogueOption> options;
 

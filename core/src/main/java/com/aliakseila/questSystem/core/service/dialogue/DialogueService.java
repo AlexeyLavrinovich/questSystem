@@ -24,10 +24,6 @@ public class DialogueService {
     public Dialogue createAndSave(String text, List<DialogueOption> options) {
         Dialogue dialogue = new Dialogue();
         dialogue.setText(text);
-        return createAndSave(save(dialogue), options);
-    }
-
-    private Dialogue createAndSave(Dialogue dialogue, List<DialogueOption> options){
         options.forEach(o -> {
             o.setDialogue(dialogue);
         });

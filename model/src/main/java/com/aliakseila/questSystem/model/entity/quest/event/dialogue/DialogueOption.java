@@ -28,7 +28,7 @@ public class DialogueOption {
     private Long id;
     private String answer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "dialogue_id")
     private Dialogue dialogue;
 
