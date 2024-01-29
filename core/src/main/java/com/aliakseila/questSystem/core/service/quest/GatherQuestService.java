@@ -2,18 +2,28 @@ package com.aliakseila.questSystem.core.service.quest;
 
 import com.aliakseila.questSystem.core.repository.item.ItemRepo;
 import com.aliakseila.questSystem.core.repository.quest.GatherQuestRepo;
+import com.aliakseila.questSystem.core.service.item.ItemService;
+import com.aliakseila.questSystem.core.service.item.PocketsService;
+import com.aliakseila.questSystem.core.service.person.NpcService;
+import com.aliakseila.questSystem.core.service.person.PlayerService;
 import com.aliakseila.questSystem.model.entity.Item;
+import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Person;
+import com.aliakseila.questSystem.model.entity.person.Player;
+import com.aliakseila.questSystem.model.entity.person.Pockets;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class GatherQuestService implements QuestService<GatherQuest> {
 
     private final GatherQuestRepo gatherQuestRepo;
-    private final ItemRepo itemRepo;
+    private final ItemService itemService;
+    private final PocketsService pocketsService;
 
     @Override
     public GatherQuest save(GatherQuest quest) {
@@ -40,9 +50,20 @@ public class GatherQuestService implements QuestService<GatherQuest> {
 
     @Override
     public void passQuest(GatherQuest quest) {
+        Npc npc = quest.getQuestLine().getOwner();
+        Pockets npcPockets = npc.getPockets();
         Item item = quest.getItem();
-        item.setOwner(quest.getQuestLine().getOwner().getPockets());
-        itemRepo.save(item);
+        item.setOwner(npcPockets);
+        item = itemService.save(item);
+        List<Item> npcPocketsItems = npcPockets.getItems();
+        npcPocketsItems.add(item);
+        npcPockets.setItems(npcPocketsItems);
+        pocketsService.save(npcPockets);
+        Player player = quest.getQuestLine().getExecutor();
+        Pockets pockets = player.getPockets();
+        pockets.setMoney(pockets.getMoney() + quest.getPrize());
+        player.setPockets(pockets);
+        pocketsService.save(pockets);
         quest.setQuestLine(null);
         save(quest);
     }

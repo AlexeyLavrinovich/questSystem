@@ -11,10 +11,14 @@ public class PocketsService {
 
     private final PocketsRepo pocketsRepo;
 
-    public Pockets create(double sum){
+    public Pockets createAndSave(double sum){
         Pockets pockets = new Pockets();
         pockets.setMoney(sum);
-        return pockets;
+        return save(pockets);
+    }
+
+    public Pockets save(Pockets pockets) {
+        return pocketsRepo.save(pockets);
     }
 
 }

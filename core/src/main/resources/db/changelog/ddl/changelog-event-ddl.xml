@@ -17,6 +17,12 @@
             <column name="next_event_id" type="bigint">
                 <constraints foreignKeyName="next_event_id_fk" references="_event" nullable="true"/>
             </column>
+            <column name="sum" type="DOUBLE PRECISION">
+                <constraints nullable="true"/>
+            </column>
+            <column name="item_id" type="bigint">
+                <constraints foreignKeyName="event_item_id_fk" references="_item" nullable="true"/>
+            </column>
             <column name="type" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>

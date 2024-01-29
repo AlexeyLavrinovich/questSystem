@@ -1,8 +1,6 @@
-package com.aliakseila.questSystem.model.entity.quest;
-
+package com.aliakseila.questSystem.model.entity.quest.event;
 
 import com.aliakseila.questSystem.model.entity.Item;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,10 +17,12 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@DiscriminatorValue("com.aliakseila.questSystem.model.entity.quest.GatherQuest")
-public class GatherQuest extends Quest {
+@DiscriminatorValue(value = "com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent")
+public class ExchangeEvent extends Event {
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    private Double sum;
+
+    @OneToOne
     @JoinColumn(name = "item_id")
     private Item item;
 

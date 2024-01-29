@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -29,5 +30,6 @@ public class Item {
 
     @OneToOne
     @JoinColumn(name = "owner_id")
+    @ToString.Exclude
     private Pockets owner;
 }

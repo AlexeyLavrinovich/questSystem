@@ -36,7 +36,7 @@ public class PlayerService implements PersonService<Player>{
     public Player createAndSave(String name, double sum){
         Player player = new Player();
         player.setUsername(name);
-        player.setPockets(pocketsService.create(sum));
+        player.setPockets(pocketsService.createAndSave(sum));
         player.setStatus(Collections.singleton(Status.ALIVE));
         return save(player);
     }

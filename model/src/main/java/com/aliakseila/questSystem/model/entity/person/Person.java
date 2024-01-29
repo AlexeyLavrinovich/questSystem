@@ -1,13 +1,12 @@
 package com.aliakseila.questSystem.model.entity.person;
 
-import com.aliakseila.questSystem.model.entity.quest.Quest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,7 +29,8 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private Set<Status> status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "pockets_id")
+    @ToString.Exclude
     private Pockets pockets;
 }

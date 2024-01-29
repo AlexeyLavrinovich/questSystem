@@ -21,7 +21,7 @@ import lombok.ToString;
 @DiscriminatorValue(value = "com.aliakseila.questSystem.model.entity.quest.event.QuestEvent")
 public class QuestEvent extends Event {
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "quest_id")
     private Quest quest;
 

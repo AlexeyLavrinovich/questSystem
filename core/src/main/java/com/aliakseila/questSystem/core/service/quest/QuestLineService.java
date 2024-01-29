@@ -3,6 +3,7 @@ package com.aliakseila.questSystem.core.service.quest;
 import com.aliakseila.questSystem.core.repository.quest.QuestLineRepo;
 import com.aliakseila.questSystem.core.repository.quest.QuestRepo;
 import com.aliakseila.questSystem.core.service.event.DialogueEventService;
+import com.aliakseila.questSystem.core.service.event.ExchangeEventService;
 import com.aliakseila.questSystem.core.service.event.QuestEventService;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
 import com.aliakseila.questSystem.model.entity.quest.KillQuest;
@@ -10,6 +11,7 @@ import com.aliakseila.questSystem.model.entity.quest.Quest;
 import com.aliakseila.questSystem.model.entity.quest.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.Event;
+import com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class QuestLineService {
 
     private final QuestLineRepo questLineRepo;
     private final DialogueEventService dialogueEventService;
+    private final ExchangeEventService exchangeEventService;
     private final QuestEventService questEventService;
     private final QuestRepo questRepo;
     private final KillQuestService killQuestService;
@@ -45,9 +48,15 @@ public class QuestLineService {
     }
 
     public QuestLine chooseOption(Long dialogueOptionId, QuestLine questLine) {
+        questLine.setEvent(null);
         Event nextEvent = dialogueEventService.chooseOption(dialogueOptionId);
+        if(exchangeEventService.isExchangeEvent(nextEvent.getId())){
+            ExchangeEvent event = exchangeEventService.findById(nextEvent.getId());
+            return exchangeEventService.trigger(event, questLine);
+        }
         if(dialogueEventService.isDialogueEvent(nextEvent.getId())){
             DialogueEvent event = dialogueEventService.findById(nextEvent.getId());
+            questLine.setEvent(event);
             return dialogueEventService.trigger(event, questLine);
         }
         QuestEvent event = questEventService.findById(nextEvent.getId());
@@ -57,7 +66,7 @@ public class QuestLineService {
     public boolean checkForQuest(QuestLine questLine) {
         List<Quest> history = questRepo.findByQuestLineId(questLine.getId());
         if(!history.isEmpty()){
-            history.forEach(h -> System.out.printf("%d %s %f%n",h.getId(), h.getName(), h.getPrize()));
+            history.forEach(h -> System.out.printf("You have quest: %d %s %f%n",h.getId(), h.getName(), h.getPrize()));
         }
         return !history.isEmpty();
     }
