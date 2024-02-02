@@ -18,4 +18,6 @@
     <include relativeToChangelogFile="true" file="ddl/changelog-dialogue-option-ddl.xml"/>
 
     <include relativeToChangelogFile="true" file="ddl/changelog-quest-line-ddl.xml"/>
+
+    <include relativeToChangelogFile="true" file="ddl/changelog-quest-line-node-ddl.xml"/>
 </databaseChangeLog>

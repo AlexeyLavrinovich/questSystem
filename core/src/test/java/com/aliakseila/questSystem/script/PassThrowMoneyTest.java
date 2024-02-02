@@ -2,7 +2,7 @@ package com.aliakseila.questSystem.script;
 
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

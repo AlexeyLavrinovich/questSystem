@@ -11,14 +11,15 @@ import com.aliakseila.questSystem.core.service.person.NpcService;
 import com.aliakseila.questSystem.core.service.person.PlayerService;
 import com.aliakseila.questSystem.core.service.quest.GatherQuestService;
 import com.aliakseila.questSystem.core.service.quest.KillQuestService;
-import com.aliakseila.questSystem.core.service.quest.QuestLineService;
+import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
+import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Pockets;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
 import com.aliakseila.questSystem.model.entity.quest.KillQuest;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
@@ -59,6 +60,8 @@ public class ScriptedQuestLineBaseTest {
     protected ItemService itemService;
     @Autowired
     protected ExchangeEventService exchangeEventService;
+    @Autowired
+    protected QuestLineNodeService questLineNodeService;
 
     @BeforeEach
     public void init() {
@@ -196,14 +199,14 @@ public class ScriptedQuestLineBaseTest {
     }
 
     protected QuestLine speakWithNpc(Player player, Npc npc) {
-        List<QuestLine> playerQuests = player.getQuestLines();
-        QuestLine questLine = questLineService.getQuestLinesByPlayerId(npc.getId()).stream()
+        List<QuestLine> playerQuests = playerService.getQuestLines(player);
+        QuestLine questLine = questLineService.getQuestLinesByNpcId(npc.getId()).stream()
                 .findFirst()
                 .orElseThrow();
         Assertions.assertNotNull(questLine);
-        playerQuests.add(questLine);
-        player.setQuestLines(playerQuests);
-        questLine.setExecutor(player);
+        if(!playerQuests.contains(questLine)){
+            questLineNodeService.getOrCreate(player, questLine);
+        }
         return questLineService.save(questLine);
     }
 

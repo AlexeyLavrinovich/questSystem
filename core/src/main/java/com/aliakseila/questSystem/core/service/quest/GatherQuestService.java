@@ -6,12 +6,14 @@ import com.aliakseila.questSystem.core.service.item.ItemService;
 import com.aliakseila.questSystem.core.service.item.PocketsService;
 import com.aliakseila.questSystem.core.service.person.NpcService;
 import com.aliakseila.questSystem.core.service.person.PlayerService;
+import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Person;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Pockets;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLineNode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class GatherQuestService implements QuestService<GatherQuest> {
     private final GatherQuestRepo gatherQuestRepo;
     private final ItemService itemService;
     private final PocketsService pocketsService;
+    private final QuestLineNodeService questLineNodeService;
 
     @Override
     public GatherQuest save(GatherQuest quest) {
@@ -59,7 +62,11 @@ public class GatherQuestService implements QuestService<GatherQuest> {
         npcPocketsItems.add(item);
         npcPockets.setItems(npcPocketsItems);
         pocketsService.save(npcPockets);
-        Player player = quest.getQuestLine().getExecutor();
+        Player player = questLineNodeService.getByQuestLineId(quest.getQuestLine().getId())
+                .stream()
+                .map(QuestLineNode::getPlayer)
+                .findFirst()
+                .orElseThrow();
         Pockets pockets = player.getPockets();
         pockets.setMoney(pockets.getMoney() + quest.getPrize());
         player.setPockets(pockets);

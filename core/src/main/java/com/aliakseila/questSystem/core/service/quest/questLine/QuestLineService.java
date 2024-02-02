@@ -1,14 +1,16 @@
-package com.aliakseila.questSystem.core.service.quest;
+package com.aliakseila.questSystem.core.service.quest.questLine;
 
-import com.aliakseila.questSystem.core.repository.quest.QuestLineRepo;
+import com.aliakseila.questSystem.core.repository.quest.questLine.QuestLineRepo;
 import com.aliakseila.questSystem.core.repository.quest.QuestRepo;
 import com.aliakseila.questSystem.core.service.event.DialogueEventService;
 import com.aliakseila.questSystem.core.service.event.ExchangeEventService;
 import com.aliakseila.questSystem.core.service.event.QuestEventService;
+import com.aliakseila.questSystem.core.service.quest.GatherQuestService;
+import com.aliakseila.questSystem.core.service.quest.KillQuestService;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
 import com.aliakseila.questSystem.model.entity.quest.KillQuest;
 import com.aliakseila.questSystem.model.entity.quest.Quest;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.Event;
 import com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent;
@@ -39,8 +41,8 @@ public class QuestLineService {
         return questLineRepo.save(questLine);
     }
 
-    public List<QuestLine> getQuestLinesByPlayerId(Long npcId){
-        return questLineRepo.findByOwnerIdAndExecutorIsNull(npcId);
+    public List<QuestLine> getQuestLinesByNpcId(Long npcId){
+        return questLineRepo.findByOwnerId(npcId);
     }
 
     public QuestLine trigger(QuestLine questLine){

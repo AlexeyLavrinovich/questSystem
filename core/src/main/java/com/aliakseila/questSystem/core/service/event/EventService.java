@@ -1,9 +1,6 @@
 package com.aliakseila.questSystem.core.service.event;
 
-import com.aliakseila.questSystem.model.entity.person.Person;
-import com.aliakseila.questSystem.model.entity.person.Player;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
-import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.Event;
 import org.springframework.stereotype.Service;
 

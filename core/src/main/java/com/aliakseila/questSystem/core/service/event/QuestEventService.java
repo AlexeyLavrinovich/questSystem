@@ -2,11 +2,8 @@ package com.aliakseila.questSystem.core.service.event;
 
 import com.aliakseila.questSystem.core.repository.event.QuestEventRepo;
 import com.aliakseila.questSystem.core.repository.quest.QuestRepo;
-import com.aliakseila.questSystem.core.service.quest.QuestLineService;
-import com.aliakseila.questSystem.core.service.quest.QuestService;
-import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.quest.Quest;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.QuestEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

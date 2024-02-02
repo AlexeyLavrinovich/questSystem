@@ -3,14 +3,14 @@ package com.aliakseila.questSystem.core.service.event;
 import com.aliakseila.questSystem.core.repository.event.ExchangeEventRepo;
 import com.aliakseila.questSystem.core.service.item.ItemService;
 import com.aliakseila.questSystem.core.service.item.PocketsService;
-import com.aliakseila.questSystem.core.service.person.NpcService;
-import com.aliakseila.questSystem.core.service.person.PlayerService;
+import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Pockets;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLineNode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,7 @@ public class ExchangeEventService implements EventService<ExchangeEvent> {
     private final ExchangeEventRepo exchangeEventRepo;
     private final ItemService itemService;
     private final PocketsService pocketsService;
+    private final QuestLineNodeService questLineNodeService;
 
     @Override
     public ExchangeEvent save(ExchangeEvent event) {
@@ -43,8 +44,11 @@ public class ExchangeEventService implements EventService<ExchangeEvent> {
         npcItems.remove(event.getItem());
         npcPockets.setItems(npcItems);
         pocketsService.save(npcPockets);
-
-        Player player = questLine.getExecutor();
+        Player player = questLineNodeService.getByQuestLineId(questLine.getId())
+                .stream()
+                .map(QuestLineNode::getPlayer)
+                .findFirst()
+                .orElseThrow();
         Pockets playerPockets = player.getPockets();
         playerPockets.setMoney(playerPockets.getMoney() - event.getSum());
         List<Item> playerItems = playerPockets.getItems();

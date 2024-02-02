@@ -2,10 +2,9 @@ package com.aliakseila.questSystem.core.service.event;
 
 import com.aliakseila.questSystem.core.repository.event.DialogueEventRepo;
 import com.aliakseila.questSystem.core.service.dialogue.DialogueOptionService;
-import com.aliakseila.questSystem.model.entity.quest.QuestLine;
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import com.aliakseila.questSystem.model.entity.quest.event.Event;
-import com.aliakseila.questSystem.model.entity.quest.event.dialogue.DialogueOption;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

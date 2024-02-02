@@ -14,9 +14,6 @@
             <column name="owner_id" type="bigint">
                 <constraints foreignKeyName="quest_line_owner_id_fk" references="_person" nullable="true"/>
             </column>
-            <column name="executor_id" type="bigint">
-                <constraints foreignKeyName="executor_id_fk" references="_person" nullable="true"/>
-            </column>
         </createTable>
     </changeSet>
 

@@ -1,12 +1,11 @@
 package com.aliakseila.questSystem.model.entity.quest;
 
+import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Data

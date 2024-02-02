@@ -1,7 +1,8 @@
-package com.aliakseila.questSystem.model.entity.quest;
+package com.aliakseila.questSystem.model.entity.quest.questLine;
 
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
+import com.aliakseila.questSystem.model.entity.quest.Quest;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,13 +32,16 @@ public class QuestLine {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "questLine")
     private List<Quest> history;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "owner_id")
     @ToString.Exclude
     private Npc owner;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
-    @JoinColumn(name = "executor_id")
-    @ToString.Exclude
-    private Player executor;
+//    @ManyToOne(cascade = {CascadeType.REMOVE})
+//    @JoinColumn(name = "executor_id")
+//    @ToString.Exclude
+//    private Player executor;
+
+    @OneToMany(mappedBy = "questLine")
+    private List<QuestLineNode> questLineNode;
 
 }
