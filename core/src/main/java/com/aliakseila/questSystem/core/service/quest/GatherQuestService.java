@@ -1,19 +1,15 @@
 package com.aliakseila.questSystem.core.service.quest;
 
-import com.aliakseila.questSystem.core.repository.item.ItemRepo;
 import com.aliakseila.questSystem.core.repository.quest.GatherQuestRepo;
 import com.aliakseila.questSystem.core.service.item.ItemService;
 import com.aliakseila.questSystem.core.service.item.PocketsService;
-import com.aliakseila.questSystem.core.service.person.NpcService;
-import com.aliakseila.questSystem.core.service.person.PlayerService;
-import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
+import com.aliakseila.questSystem.core.service.quest.questLine.PlayerQuestLineService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
-import com.aliakseila.questSystem.model.entity.person.Person;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Pockets;
 import com.aliakseila.questSystem.model.entity.quest.GatherQuest;
-import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLineNode;
+import com.aliakseila.questSystem.model.entity.quest.questLine.PlayerQuestLine;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +22,7 @@ public class GatherQuestService implements QuestService<GatherQuest> {
     private final GatherQuestRepo gatherQuestRepo;
     private final ItemService itemService;
     private final PocketsService pocketsService;
-    private final QuestLineNodeService questLineNodeService;
+    private final PlayerQuestLineService playerQuestLineService;
 
     @Override
     public GatherQuest save(GatherQuest quest) {
@@ -62,9 +58,9 @@ public class GatherQuestService implements QuestService<GatherQuest> {
         npcPocketsItems.add(item);
         npcPockets.setItems(npcPocketsItems);
         pocketsService.save(npcPockets);
-        Player player = questLineNodeService.getByQuestLineId(quest.getQuestLine().getId())
+        Player player = playerQuestLineService.getByQuestLineId(quest.getQuestLine().getId())
                 .stream()
-                .map(QuestLineNode::getPlayer)
+                .map(PlayerQuestLine::getPlayer)
                 .findFirst()
                 .orElseThrow();
         Pockets pockets = player.getPockets();

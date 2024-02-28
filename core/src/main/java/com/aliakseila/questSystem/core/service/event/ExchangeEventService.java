@@ -3,14 +3,14 @@ package com.aliakseila.questSystem.core.service.event;
 import com.aliakseila.questSystem.core.repository.event.ExchangeEventRepo;
 import com.aliakseila.questSystem.core.service.item.ItemService;
 import com.aliakseila.questSystem.core.service.item.PocketsService;
-import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
+import com.aliakseila.questSystem.core.service.quest.questLine.PlayerQuestLineService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Pockets;
 import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import com.aliakseila.questSystem.model.entity.quest.event.ExchangeEvent;
-import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLineNode;
+import com.aliakseila.questSystem.model.entity.quest.questLine.PlayerQuestLine;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class ExchangeEventService implements EventService<ExchangeEvent> {
     private final ExchangeEventRepo exchangeEventRepo;
     private final ItemService itemService;
     private final PocketsService pocketsService;
-    private final QuestLineNodeService questLineNodeService;
+    private final PlayerQuestLineService playerQuestLineService;
 
     @Override
     public ExchangeEvent save(ExchangeEvent event) {
@@ -44,9 +44,9 @@ public class ExchangeEventService implements EventService<ExchangeEvent> {
         npcItems.remove(event.getItem());
         npcPockets.setItems(npcItems);
         pocketsService.save(npcPockets);
-        Player player = questLineNodeService.getByQuestLineId(questLine.getId())
+        Player player = playerQuestLineService.getByQuestLineId(questLine.getId())
                 .stream()
-                .map(QuestLineNode::getPlayer)
+                .map(PlayerQuestLine::getPlayer)
                 .findFirst()
                 .orElseThrow();
         Pockets playerPockets = player.getPockets();

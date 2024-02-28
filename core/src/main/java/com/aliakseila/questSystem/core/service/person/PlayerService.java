@@ -2,14 +2,13 @@ package com.aliakseila.questSystem.core.service.person;
 
 import com.aliakseila.questSystem.core.repository.person.PlayerRepo;
 import com.aliakseila.questSystem.core.service.item.PocketsService;
-import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
+import com.aliakseila.questSystem.core.service.quest.questLine.PlayerQuestLineService;
 import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.person.Status;
 import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ public class PlayerService implements PersonService<Player>{
 
     private final PlayerRepo playerRepo;
     private final PocketsService pocketsService;
-    private final QuestLineNodeService questLineNodeService;
+    private final PlayerQuestLineService playerQuestLineService;
 
     @Override
     public Player save(Player player) {
@@ -60,6 +59,6 @@ public class PlayerService implements PersonService<Player>{
     }
 
     public List<QuestLine> getQuestLines(Player player) {
-        return questLineNodeService.getQuestLinesByPlayer(player);
+        return playerQuestLineService.getQuestLinesByPlayer(player);
     }
 }

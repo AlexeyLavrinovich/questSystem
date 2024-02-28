@@ -1,7 +1,6 @@
 package com.aliakseila.questSystem.model.entity.person;
 
-import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLine;
-import com.aliakseila.questSystem.model.entity.quest.questLine.QuestLineNode;
+import com.aliakseila.questSystem.model.entity.quest.questLine.PlayerQuestLine;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -26,6 +25,6 @@ import java.util.List;
 public class Player extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "player")
-    private List<QuestLineNode> questLines;
+    private List<PlayerQuestLine> questLines;
 
 }

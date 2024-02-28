@@ -20,8 +20,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "_quest_line_node")
-public class QuestLineNode {
+@Table(name = "_player_quest_line")
+public class PlayerQuestLine {
 
     @EmbeddedId
     private EmbeddedQuestLineNodeId id;

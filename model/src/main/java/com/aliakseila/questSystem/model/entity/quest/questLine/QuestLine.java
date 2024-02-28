@@ -1,7 +1,6 @@
 package com.aliakseila.questSystem.model.entity.quest.questLine;
 
 import com.aliakseila.questSystem.model.entity.person.Npc;
-import com.aliakseila.questSystem.model.entity.person.Player;
 import com.aliakseila.questSystem.model.entity.quest.Quest;
 import com.aliakseila.questSystem.model.entity.quest.event.DialogueEvent;
 import jakarta.persistence.*;
@@ -42,6 +41,6 @@ public class QuestLine {
 //    private Player executor;
 
     @OneToMany(mappedBy = "questLine")
-    private List<QuestLineNode> questLineNode;
+    private List<PlayerQuestLine> playerQuestLine;
 
 }

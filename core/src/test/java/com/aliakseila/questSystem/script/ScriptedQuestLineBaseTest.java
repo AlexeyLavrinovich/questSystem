@@ -11,7 +11,7 @@ import com.aliakseila.questSystem.core.service.person.NpcService;
 import com.aliakseila.questSystem.core.service.person.PlayerService;
 import com.aliakseila.questSystem.core.service.quest.GatherQuestService;
 import com.aliakseila.questSystem.core.service.quest.KillQuestService;
-import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineNodeService;
+import com.aliakseila.questSystem.core.service.quest.questLine.PlayerQuestLineService;
 import com.aliakseila.questSystem.core.service.quest.questLine.QuestLineService;
 import com.aliakseila.questSystem.model.entity.Item;
 import com.aliakseila.questSystem.model.entity.person.Npc;
@@ -61,7 +61,7 @@ public class ScriptedQuestLineBaseTest {
     @Autowired
     protected ExchangeEventService exchangeEventService;
     @Autowired
-    protected QuestLineNodeService questLineNodeService;
+    protected PlayerQuestLineService playerQuestLineService;
 
     @BeforeEach
     public void init() {
@@ -205,7 +205,7 @@ public class ScriptedQuestLineBaseTest {
                 .orElseThrow();
         Assertions.assertNotNull(questLine);
         if(!playerQuests.contains(questLine)){
-            questLineNodeService.getOrCreate(player, questLine);
+            playerQuestLineService.getOrCreate(player, questLine);
         }
         return questLineService.save(questLine);
     }
